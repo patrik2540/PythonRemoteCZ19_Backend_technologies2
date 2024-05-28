@@ -3,7 +3,7 @@ from django.db.models import *  #(Model, CharField, ForeignKey, DO_NOTHING,
 
 
 class Genre(Model):
-    name = CharField(max_length=16, null=False, blank=True)
+    name = CharField(max_length=16, null=True, blank=False)
 
 
     def __repr__(self):
@@ -15,11 +15,11 @@ class Genre(Model):
 
 
 class Movie(Model):
-    title = CharField(max_length=185, null=False, blank=True)
-    genre = ForeignKey(Genre, on_delete=DO_NOTHING)
-    rating = IntegerField()
-    released = DateField()
-    description = TextField()
+    title = CharField(max_length=185, null=True, blank=True)
+    genre = ForeignKey(Genre, on_delete=DO_NOTHING, null=True)
+    rating = IntegerField(null=True, blank=True)
+    released = DateField(null=True, blank=True)
+    description = TextField(null=True)
     created = DateTimeField(auto_now_add=True)
 
 
