@@ -6,23 +6,25 @@ from viewer.models import *
 
 
 def hello(request):
-    return HttpResponse("Hello World")
+    return HttpResponse('Hello, world!')
 
 
+# User data - Regular expression
 def hello2(request, s):
-    return HttpResponse(f'Hello, {s} word!')
+    return HttpResponse(f'Hello, {s} world!')
 
 
+# User data - URL encoding
 def hello3(request):
     s = request.GET.get('s', '')
-    return HttpResponse(f'Hello, {s} word!')
+    return HttpResponse(f'Hello, {s} world!')
 
 
 def hello4(request):
-    adjective = ['nice', 'beutiful', 'cruel', 'blue', 'green']
-    context = {'adjectives': adjective, 'name': 'Patrik'}
+    adjectives = ['nice', 'beautiful', 'cruel', 'blue', 'green']
+    context = {'adjectives': adjectives, 'name': 'Petr'}
     return render(
-        request=request,
+        request=request,  # předáváme na další stránku request (obsahuje např. data o přihlášeném uživateli)
         template_name="hello.html",
         context=context
     )
@@ -35,22 +37,23 @@ def home(request):
 def movies(request):
     movies = Movie.objects.all()
     context = {'movies': movies}
-    return render(request, template_name="movies.html", context=context)
+    return render(request, "movies.html", context)
 
 
 def movie(request, pk):
     if Movie.objects.filter(id=pk).exists():
         movie = Movie.objects.get(id=pk)
         context = {'movie': movie}
-        return render(request, 'movie.html', context)
+        return render(request, "movie.html", context)
     return movies(request)
-
+    #return reverse_lazy('movies')
 
 
 def genres(request):
     genres = Genre.objects.all()
     context = {'genres': genres}
-    return render(request,'genres.html',context)
+    return render(request, "genres.html", context)
+
 
 def genre(request, pk):
     genre = Genre.objects.get(id=pk)
